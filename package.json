@@ -1,0 +1,32 @@
+{
+  "name": "mtg-mana-calculator",
+  "version": "1.0.0",
+  "description": "Mana base probability calculator for MTG",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack",
+    "dev": "npm run webpack -- --mode development",
+    "build": "npm run webpack -- --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JosephsPlace/mtg-mana-base-calculator.git"
+  },
+  "author": "Joseph",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JosephsPlace/mtg-mana-base-calculator/issues"
+  },
+  "homepage": "https://github.com/JosephsPlace/mtg-mana-base-calculator#readme",
+  "dependencies": {
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
