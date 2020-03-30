@@ -1,5 +1,6 @@
 const path = require('path');
 var webpack = require('webpack');
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 module.exports = {
     entry: './src/index.js',
@@ -20,5 +21,8 @@ module.exports = {
     },
     stats: {
         colors: true
-    }
+    },
+    plugins: [
+        new MinifyPlugin()
+    ]
 };
