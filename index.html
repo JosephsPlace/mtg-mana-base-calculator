@@ -2,11 +2,56 @@
 <html>
 <head>
     <title>Mana Base Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="./dist/main.css" />
 </head>
 <body>
 <div id="app">
+    <div class="container text-center">
+        <h1 class="display-4">Mana Base Caluclator</h1>
+        <p class="lead">Brought to you by <a href="https://www.youtube.com/c/casuallycompetitivemtg" target="_blank">Casually Competitive</a></p>
+        <form v-on:submit.prevent="calculatePercentPerDraw()" class="field-group text-left">
+            <label class="">Are you using Partner Commanders?</label>
+            <div class="btn-group btn-group-toggle is-fullwidth justify-content-center" data-toggle="buttons">
+                <label class="btn btn-light" style="max-width: 150px">
+                    <input type="radio"name="using_partners" v-model="cards_in_deck" value="98" :disabled="fields_disabled"> Yes
+                </label>
+                <label class="btn btn-light active" style="max-width: 150px">
+                    <input type="radio" name="using_partners" v-model="cards_in_deck" value="99" :disabled="fields_disabled" checked> No
+                </label>
+            </div>
 
+            <br /><br />
+
+            <div class="">
+                <label class="label" for="land-count">Lands in deck:</label>
+                <input type="number" id="land-count" class="form-control" v-model="copy_count.lands" :disabled="fields_disabled" />
+                <br />
+                <label class="label" for="artifact-count">Artifacts in deck:</label>
+                <input type="number" id="artifact-count" class="form-control" v-model="copy_count.artifacts" :disabled="fields_disabled" />
+                <br />
+                <label class="label" for="dork-count">Mana dorks in deck:</label>
+                <input type="number" id="dork-count" class="form-control" v-model="copy_count.dorks" :disabled="fields_disabled" />
+                <br />
+            </div>
+
+            <button class="btn btn-primary is-fullwidth" :disabled="fields_disabled" v-if="fields_disabled === false" >Calculate</button>
+        </form>
+
+        <div v-for="draw in results">
+            Cards Drawn: {{draw.cards_drawn}}
+            <br />
+            Lands
+            <pre>{{draw.lands}}</pre>
+            Artifacts
+            <pre>{{draw.artifacts}}</pre>
+            Dorks:
+            <pre>{{draw.dorks}}</pre>
+        </div>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="./dist/main.js"></script>
 </body>
 </html>

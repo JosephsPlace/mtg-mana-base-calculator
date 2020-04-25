@@ -1,0 +1,33 @@
+body {
+    background: #2b2e43;
+    color: #fff;
+}
+
+.container {
+    background: #2f3247;
+    margin-top: 25px;
+    border-radius: 5px;
+}
+
+a {
+    color: #0091ff;
+}
+
+label {
+    color: #9e9eb1;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    cursor: not-allowed;
+    opacity: .85;
+}
+
+.is-fullwidth {
+    width: 100%;
+}
+
+.field-group {
+    max-width:300px;
+    margin: 0 auto;
+    padding-bottom: 25px;
+}

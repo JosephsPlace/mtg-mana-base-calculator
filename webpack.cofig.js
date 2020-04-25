@@ -1,5 +1,5 @@
 const path = require('path');
-var webpack = require('webpack');
+const webpack = require('webpack');
 const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 module.exports = {
@@ -9,7 +9,13 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
     },
     module: {
-        loaders: [
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: {
+                }
+            },
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
