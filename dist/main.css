@@ -61,6 +61,7 @@ label {
 .summary-box {
     box-shadow: 1px 1px 4px rgba(16, 17, 25, 0.6);
     border-radius: 4px;
+    padding-bottom: 10px;
 }
 
 .summary-paragraph {
