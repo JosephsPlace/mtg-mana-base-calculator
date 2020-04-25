@@ -3,7 +3,6 @@ import "bootstrap";
 new Vue({
     el: '#app',
     data: {
-        button_text: 'Calculate',
         fields_disabled: false,
         cards_in_deck: 99,
         copy_count: {
@@ -12,12 +11,16 @@ new Vue({
             dorks: 0,
         },
         total_cards_drawn: 0,
+        show_details: [],
         results: []
     },
     created() {
 
     },
     methods: {
+        toggleDetails(key) {
+            this.show_details[key] = Vue.set(this.show_details, key, !this.show_details[key]);
+        },
         calculatePercentPerDraw() {
             if (this.total_cards_drawn === 0) {
                 this.total_cards_drawn = 7;
@@ -28,6 +31,7 @@ new Vue({
             result_arr["cards_drawn"] = this.total_cards_drawn;
             for (let property in this.copy_count) {
                 result_arr[property] = [];
+                result_arr["average_" + property] = 0;
                 for (let j = 1; j <= 10; j++) {
                     let current_result = 1 - this.hyp(j - 1, cards_drawn, parseInt(this.copy_count[property]), parseInt(this.cards_in_deck));
 
@@ -36,11 +40,18 @@ new Vue({
                     }
 
                     // Since we aren't calculating for 0 cards drawn, reset array to normal indexes
-                    result_arr[property][j - 1] = current_result;
+                    let rounded_result = (current_result * 100).toFixed(2);
+                    result_arr[property][j - 1] = rounded_result;
+
+                    if (rounded_result > 50) {
+                        result_arr["average_" + property] = j;
+                    }
                 }
             }
 
-            this.results.push(result_arr)
+            this.results.push(result_arr);
+            this.show_details.push(false);
+
             this.total_cards_drawn++;
             if (this.fields_disabled === false) {
                 this.fields_disabled = true;

@@ -3,50 +3,121 @@
 <head>
     <title>Mana Base Calculator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
     <link rel="stylesheet" href="./dist/main.css" />
 </head>
 <body>
-<div id="app">
+<div id="app" v-cloak>
     <div class="container text-center">
-        <h1 class="display-4">Mana Base Caluclator</h1>
-        <p class="lead">Brought to you by <a href="https://www.youtube.com/c/casuallycompetitivemtg" target="_blank">Casually Competitive</a></p>
-        <form v-on:submit.prevent="calculatePercentPerDraw()" class="field-group text-left">
-            <label class="">Are you using Partner Commanders?</label>
-            <div class="btn-group btn-group-toggle is-fullwidth justify-content-center" data-toggle="buttons">
-                <label class="btn btn-light" style="max-width: 150px">
-                    <input type="radio"name="using_partners" v-model="cards_in_deck" value="98" :disabled="fields_disabled"> Yes
-                </label>
-                <label class="btn btn-light active" style="max-width: 150px">
-                    <input type="radio" name="using_partners" v-model="cards_in_deck" value="99" :disabled="fields_disabled" checked> No
-                </label>
+        <div class="header-container">
+            <h1 class="display-4">Mana Base Caluclator</h1>
+            <p class="lead">Brought to you by <a href="https://www.youtube.com/c/casuallycompetitivemtg" target="_blank">Casually Competitive</a></p>
+            <form v-on:submit.prevent="calculatePercentPerDraw()" class="field-group text-left">
+                <label class="">Are you using Partner Commanders?</label>
+                <div class="btn-group btn-group-toggle is-fullwidth justify-content-center" data-toggle="buttons">
+                    <label class="btn btn-light" style="max-width: 150px">
+                        <input type="radio"name="using_partners" v-model="cards_in_deck" value="98" :disabled="fields_disabled"> Yes
+                    </label>
+                    <label class="btn btn-light active" style="max-width: 150px">
+                        <input type="radio" name="using_partners" v-model="cards_in_deck" value="99" :disabled="fields_disabled" checked> No
+                    </label>
+                </div>
+
+                <br /><br />
+
+                <div class="">
+                    <label class="label" for="land-count">Lands in deck:</label>
+                    <input type="number" id="land-count" class="form-control" v-model="copy_count.lands" :disabled="fields_disabled" />
+                    <br />
+                    <label class="label" for="artifact-count">Artifacts in deck:</label>
+                    <input type="number" id="artifact-count" class="form-control" v-model="copy_count.artifacts" :disabled="fields_disabled" />
+                    <br />
+                    <label class="label" for="dork-count">Mana dorks in deck:</label>
+                    <input type="number" id="dork-count" class="form-control" v-model="copy_count.dorks" :disabled="fields_disabled" />
+                    <br />
+                </div>
+
+                <button class="btn btn-primary is-fullwidth" :disabled="fields_disabled" v-if="fields_disabled === false" >Calculate</button>
+            </form>
+        </div>
+
+        <div class="" v-if="results.length > 0">
+            <div v-for="(draw, key) in results">
+                <p class="summary-paragraph">
+                After drawing {{draw.cards_drawn}} cards, on average you will have
+                </p>
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col">
+                            <div class="summary-box" style="background: #205a86;">
+                                <div class="display-4">
+                                    {{draw.average_lands}}
+                                </div>
+                                Land<span v-if="draw.average_lands !== 1">s</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="summary-box" style="background: #b79b12;">
+                                <div class="display-4">
+                                    {{draw.average_artifacts}}
+                                </div>
+                                Artifact<span v-if="draw.average_artifacts !== 1">s</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="summary-box" style="background: #158c51;">
+                                <div class="display-4">
+                                    {{draw.average_dorks}}
+                                </div>
+                                Dork<span v-if="draw.average_dorks !== 1">s</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <a @click="toggleDetails(key)" style="margin-top: 10px; font-size: 1.2em">Toggle Details <i class="fas fa-caret-down"></i></a>
+                    </div>
+                    <div class="row" v-if="show_details[key] === true" style="margin-top: 15px;">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Type</th>
+                                <th scope="col">1</th>
+                                <th scope="col">2</th>
+                                <th scope="col">3</th>
+                                <th scope="col">4</th>
+                                <th scope="col">5</th>
+                                <th scope="col">6</th>
+                                <th scope="col">7</th>
+                                <th scope="col">8</th>
+                                <th scope="col">9</th>
+                                <th scope="col">10</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">Lands</th>
+                                <td v-for="chance in draw.lands">{{chance}}%</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Artifacts</th>
+                                <td v-for="chance in draw.artifacts">{{chance}}%</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Dorks</th>
+                                <td v-for="chance in draw.dorks">{{chance}}%</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <hr />
             </div>
 
-            <br /><br />
-
-            <div class="">
-                <label class="label" for="land-count">Lands in deck:</label>
-                <input type="number" id="land-count" class="form-control" v-model="copy_count.lands" :disabled="fields_disabled" />
-                <br />
-                <label class="label" for="artifact-count">Artifacts in deck:</label>
-                <input type="number" id="artifact-count" class="form-control" v-model="copy_count.artifacts" :disabled="fields_disabled" />
-                <br />
-                <label class="label" for="dork-count">Mana dorks in deck:</label>
-                <input type="number" id="dork-count" class="form-control" v-model="copy_count.dorks" :disabled="fields_disabled" />
-                <br />
+            <div>
+                <br /><br />
+                <button class="btn btn-primary is-fullwidth" @click="calculatePercentPerDraw()">Show Next Draw</button>
             </div>
-
-            <button class="btn btn-primary is-fullwidth" :disabled="fields_disabled" v-if="fields_disabled === false" >Calculate</button>
-        </form>
-
-        <div v-for="draw in results">
-            Cards Drawn: {{draw.cards_drawn}}
-            <br />
-            Lands
-            <pre>{{draw.lands}}</pre>
-            Artifacts
-            <pre>{{draw.artifacts}}</pre>
-            Dorks:
-            <pre>{{draw.dorks}}</pre>
         </div>
     </div>
 </div>

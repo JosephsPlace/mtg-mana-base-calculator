@@ -1,20 +1,46 @@
+[v-cloak] {display: none}
+
 body {
     background: #2b2e43;
     color: #fff;
 }
 
+#app {
+    padding-bottom: 25px;
+}
+
 .container {
-    background: #2f3247;
     margin-top: 25px;
     border-radius: 5px;
 }
 
+.header-container {
+    background: #2f3247;
+}
+
+hr {
+    margin-top: 2rem;
+    border-top-color: #5b618a;
+}
+
+a:not([href]),
 a {
     color: #0091ff;
+    cursor: pointer;
 }
 
 label {
     color: #9e9eb1;
+}
+
+.table {
+    color: #fff;
+    background: #2f3247;
+}
+
+.table td, .table th,
+.table thead th {
+    border-bottom: 2px solid #829ea7;
 }
 
 .form-control:disabled, .form-control[readonly] {
@@ -30,4 +56,15 @@ label {
     max-width:300px;
     margin: 0 auto;
     padding-bottom: 25px;
+}
+
+.summary-box {
+    box-shadow: 1px 1px 4px rgba(16, 17, 25, 0.6);
+    border-radius: 4px;
+}
+
+.summary-paragraph {
+    margin-top: 1em;
+    font-size: 1.5em;
+    font-weight: 300;
 }
