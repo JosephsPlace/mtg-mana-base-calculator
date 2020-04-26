@@ -70,3 +70,18 @@ label {
     font-size: 1.5em;
     font-weight: 300;
 }
+
+.feature-list-box {
+    background: #191b27;
+    color: #4e5373;
+    font-family: monospace;
+    padding: 20px 5px 5px;
+    font-size: 1.1em;
+    border-radius: 4px;
+    margin-top: 15px;
+    border: 1px solid #0b0b10;
+}
+
+.feature-list-box ul li {
+    list-style: none;
+}

@@ -4,14 +4,14 @@
     <title>Mana Base Calculator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
-    <link rel="stylesheet" href="./dist/main.css?v=1.0001" />
+    <link rel="stylesheet" href="./dist/main.css?v=1.0002" />
 </head>
 <body>
 <div id="app" v-cloak>
     <div class="container text-center">
         <div class="header-container">
             <h1 class="display-4">Mana Base Calculator</h1>
-            <p class="lead">Brought to you by <a href="https://www.youtube.com/c/casuallycompetitivemtg" target="_blank">Casually Competitive</a></p>
+            <p class="lead">Brought to you by <a href="https://www.youtube.com/c/casuallycompetitivemtg" target="_blank">Casually Competitive MTG</a></p>
 
             <div v-if="calculation_has_completed === true" class="text-center">
                 <br />
@@ -20,6 +20,11 @@
             </div>
 
             <form v-on:submit.prevent="calculatePercentPerDraw()" class="field-group text-left" v-if="hide_filters === false">
+                <hr />
+                    <p class="small">This calculator allows you to see the average number of mana producing sources you should expect to see in your hand based on the number of cards drawn. The math is based on Hypergeometric Cumulative Probability ( P(X >= 1 ).</p>
+
+                <hr style="margin-top: 20px;" />
+
                 <label class="is-fullwidth text-center">Are you using Partner Commanders?</label>
                 <div class="btn-group btn-group-toggle is-fullwidth justify-content-center" data-toggle="buttons">
                     <label class="btn btn-light" style="max-width: 150px">
@@ -257,6 +262,13 @@
                 <br /><br />
                 <button class="btn btn-primary is-fullwidth" @click="calculatePercentPerDraw()">Show Next Draw</button>
             </div>
+        </div>
+
+        <div class="feature-list-box">
+            <p class="lead">Planned Features</p>
+            <ul>
+                <li>Allow users to paste in a decklist link and auto-fill the field options</li>
+            </ul>
         </div>
     </div>
 </div>
