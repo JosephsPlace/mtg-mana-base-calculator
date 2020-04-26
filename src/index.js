@@ -3,27 +3,99 @@ import "bootstrap";
 new Vue({
     el: '#app',
     data: {
+        hide_filters: false,
         fields_disabled: false,
+        calculation_has_completed: false,
+        show_advanced_filters: false,
+        show_mana_production_averages: false,
+        show_advanced_filter_results_flag: false,
         cards_in_deck: 99,
+        total_cards_drawn: 0,
+        show_details: [],
+        results: [],
         copy_count: {
             lands: 0,
             artifacts: 0,
             dorks: 0,
         },
-        total_cards_drawn: 0,
-        show_details: [],
-        results: []
+        color_production_totals: {
+            lands: {
+                white: 0,
+                blue: 0,
+                black: 0,
+                red: 0,
+                green: 0,
+                colorless: 0
+            },
+            artifacts: {
+                white: 0,
+                blue: 0,
+                black: 0,
+                red: 0,
+                green: 0,
+                colorless: 0
+            },
+            dorks: {
+                white: 0,
+                blue: 0,
+                black: 0,
+                red: 0,
+                green: 0,
+                colorless: 0
+            }
+        },
+        color_production_averages: {
+            lands: {
+                white: 0,
+                blue: 0,
+                black: 0,
+                red: 0,
+                green: 0,
+                colorless: 0
+            },
+            artifacts: {
+                white: 0,
+                blue: 0,
+                black: 0,
+                red: 0,
+                green: 0,
+                colorless: 0
+            },
+            dorks: {
+                white: 0,
+                blue: 0,
+                black: 0,
+                red: 0,
+                green: 0,
+                colorless: 0
+            }
+        }
     },
     created() {
 
     },
     methods: {
+        toggleFilterDisplay() {
+            this.hide_filters = !this.hide_filters;
+        },
+        toggleManaProductionValues() {
+            this.show_mana_production_averages = !this.show_mana_production_averages;
+        },
+        toggleAdvancedFilters() {
+            this.show_advanced_filters = !this.show_advanced_filters;
+        },
         toggleDetails(key) {
             this.show_details[key] = Vue.set(this.show_details, key, !this.show_details[key]);
         },
         calculatePercentPerDraw() {
             if (this.total_cards_drawn === 0) {
                 this.total_cards_drawn = 7;
+
+                // The first time calculating the probability, also calculate mana-production averages
+                this.calculateManaProductionAverages();
+
+                // The first time calculating, hide the filters for better result-viewing
+                this.hide_filters = true;
             }
             let cards_drawn = this.total_cards_drawn;
             let result_arr = [];
@@ -56,6 +128,19 @@ new Vue({
             if (this.fields_disabled === false) {
                 this.fields_disabled = true;
             }
+
+            this.calculation_has_completed = true;
+        },
+        calculateManaProductionAverages() {
+            for (let type in this.color_production_totals) {
+                for (let color in this.color_production_totals[type]) {
+                    if (parseInt(this.color_production_totals[type][color]) > 0) {
+                        this.show_advanced_filter_results_flag = true;
+                        this.color_production_averages[type][color] = ((parseInt(this.color_production_totals[type][color]) / parseInt(this.copy_count[type])) * 100).toFixed(2)
+                    }
+                }
+            }
+            console.log(this.color_production_averages);
         },
         hyp(x, cards_drawn, total_copies, deck_size) {
             let nz, mz;

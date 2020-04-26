@@ -53,7 +53,8 @@ label {
 }
 
 .field-group {
-    max-width:300px;
+    max-width: 500px;
+    min-width: 300px;
     margin: 0 auto;
     padding-bottom: 25px;
 }
