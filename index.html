@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <a @click="toggleDetails(key)" style="margin-top: 10px; font-size: 1.2em">Toggle Details <i class="fas fa-caret-down"></i></a>
+                        <button class="btn btn-outline-danger" @click="toggleDetails(key)" style="margin-top: 20px; font-size: 1.2em">Toggle Details <i class="fas fa-caret-down"></i></button>
                     </div>
                     <div class="row" v-if="show_details[key] === true" style="margin-top: 15px;">
                         <div class="table-responsive-sm" style="margin: 0 auto;">
