@@ -27,11 +27,11 @@
 
                 <label class="is-fullwidth text-center">Are you using Partner Commanders?</label>
                 <div class="btn-group btn-group-toggle is-fullwidth justify-content-center" data-toggle="buttons">
-                    <label class="btn btn-light" style="max-width: 150px">
-                        <input type="radio"name="using_partners" v-model="cards_in_deck" value="98" :disabled="fields_disabled"> Yes
+                    <label class="btn btn-light" style="max-width: 150px" @click="updateCardsInDeck(98)">
+                        <input type="radio" v-model="cards_in_deck" v-bind:value="98" :disabled="fields_disabled"> Yes
                     </label>
-                    <label class="btn btn-light active" style="max-width: 150px">
-                        <input type="radio" name="using_partners" v-model="cards_in_deck" value="99" :disabled="fields_disabled" checked> No
+                    <label class="btn btn-light active" style="max-width: 150px" @click="updateCardsInDeck(99)">
+                        <input type="radio" v-model="cards_in_deck" v-bind:value="99" :disabled="fields_disabled"> No
                     </label>
                 </div>
 

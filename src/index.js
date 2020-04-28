@@ -87,6 +87,9 @@ new Vue({
         toggleDetails(key) {
             this.show_details[key] = Vue.set(this.show_details, key, !this.show_details[key]);
         },
+        updateCardsInDeck(value) {
+            this.cards_in_deck = value;
+        },
         calculatePercentPerDraw() {
             // Calculate the probability for the current draw
             if (this.total_cards_drawn === 0) {
