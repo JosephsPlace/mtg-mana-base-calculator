@@ -88,15 +88,18 @@ new Vue({
             this.show_details[key] = Vue.set(this.show_details, key, !this.show_details[key]);
         },
         calculatePercentPerDraw() {
+            // Calculate the probability for the current draw
             if (this.total_cards_drawn === 0) {
+                // The first time calculating the probability calculate it for an opening hand of 7
                 this.total_cards_drawn = 7;
 
-                // The first time calculating the probability, also calculate mana-production averages
+                // Calculate mana-production averages
                 this.calculateManaProductionAverages();
 
-                // The first time calculating, hide the filters for better result-viewing
+                // Hide the filters for better result-viewing
                 this.hide_filters = true;
             }
+
             let cards_drawn = this.total_cards_drawn;
             let result_arr = [];
 
@@ -132,6 +135,8 @@ new Vue({
             this.calculation_has_completed = true;
         },
         calculateManaProductionAverages() {
+            // Calculates the average that each mana source of its type can produce each type of mana
+            // This only is relevant if the user filled in the Advanced Fields
             for (let type in this.color_production_totals) {
                 for (let color in this.color_production_totals[type]) {
                     if (parseInt(this.color_production_totals[type][color]) > 0) {
@@ -140,36 +145,39 @@ new Vue({
                     }
                 }
             }
-            console.log(this.color_production_averages);
         },
         hyp(x, cards_drawn, total_copies, deck_size) {
-            let nz, mz;
+            // Calculation formula derived from https://gist.github.com/adamnovak/f34e6cf2c08684752a9d
+            let smaller_set,
+                larger_set;
 
             // Make sure copies is fewer than cards drawn
             if (total_copies < cards_drawn) {
-                nz = total_copies;
-                mz = cards_drawn
+                smaller_set = total_copies;
+                larger_set = cards_drawn
             } else {
-                nz = cards_drawn;
-                mz = total_copies
+                smaller_set = cards_drawn;
+                larger_set = total_copies;
             }
 
             let h = 1,
                 s = 1,
                 k = 0,
                 i = 0;
+
+            // Refer to Gist above for deeper explanation on how this calculation works
             while (i < x) {
-                while (s > 1 && k < nz) {
-                    h = h * (1 - mz / (deck_size - k));
-                    s = s * (1 -mz / (deck_size - k));
+                while (s > 1 && k < smaller_set ) {
+                    h = h * (1 - larger_set / (deck_size - k));
+                    s = s * (1 - larger_set / (deck_size - k));
                     k = k + 1;
                 }
-                h = h * (nz - i) * (mz - i) / (i + 1) / (deck_size - nz - mz + i + 1);
+                h = h * (smaller_set - i) * (larger_set - i) / (i + 1) / (deck_size - smaller_set - larger_set + i + 1);
                 s = s + h;
                 i = i + 1;
             }
-            while (k < nz) {
-                s = s * (1 - mz / (deck_size - k));
+            while (k < smaller_set ) {
+                s = s * (1 - larger_set / (deck_size - k));
                 k = k + 1;
             }
 
